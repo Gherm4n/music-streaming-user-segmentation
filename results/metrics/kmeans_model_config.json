@@ -1,0 +1,36 @@
+{
+  "algorithm": "KMeans",
+  "representation": "A",
+  "features": [
+    "avg_listening_hours_per_week",
+    "playlists_created",
+    "avg_skips_per_day",
+    "music_suggestion_rating_1_to_5"
+  ],
+  "selected_k": 5,
+  "init": "k-means++",
+  "n_init": 20,
+  "max_iter": 300,
+  "random_seed": 42,
+  "k_range": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "silhouette_sample_size": 10000,
+  "segment_names": {
+    "0": "Heavy Listeners",
+    "1": "Frequent Skippers",
+    "2": "Playlist Builders",
+    "3": "Low-Rating Users",
+    "4": "Light Listeners"
+  },
+  "fit_seconds_at_selected_k": 1.5577541960010421,
+  "inertia": 107872.50989944002
+}

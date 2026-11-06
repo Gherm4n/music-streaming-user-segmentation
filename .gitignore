@@ -1,0 +1,26 @@
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Dataset and regenerated data (run the notebooks to recreate data/processed)
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# Large generated label files (recreated by notebooks 03 to 05)
+results/cluster_profiles/*_labels.csv
+results/cluster_profiles/final_segment_assignments.csv
+
+# Temporary files
+*.tmp
+*.log
+.DS_Store

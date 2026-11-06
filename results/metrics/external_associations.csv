@@ -1,0 +1,27 @@
+algorithm,variable,test,effect_measure,effect_size,p_value,significant_after_bonferroni
+K-Means,age,One-way ANOVA,eta squared,5.427071810340792e-05,0.60687314795848,False
+K-Means,tenure_months,One-way ANOVA,eta squared,2.446990635499634e-05,0.8742290805449539,False
+K-Means,months_inactive,One-way ANOVA,eta squared,3.091110262163106e-05,0.8185602618347466,False
+K-Means,subscription_type,Chi-square,Cramer's V,0.007739830303324991,0.7452870224501309,False
+K-Means,subscription_status,Chi-square,Cramer's V,0.008711683418845775,0.4345066153154957,False
+K-Means,inactive_3_months_flag,Chi-square,Cramer's V,0.007694813020583658,0.5644560030898953,False
+K-Means,ad_interaction,Chi-square,Cramer's V,0.0067939985014604685,0.6793273232178594,False
+K-Means,ad_conversion_to_subscription,Chi-square,Cramer's V,0.005587583828742258,0.8157741371479471,False
+K-Means,country,Chi-square,Cramer's V,0.014526388561744973,0.5488770842000924,False
+K-Means,favorite_genre,Chi-square,Cramer's V,0.013858852192242139,0.7091307081418585,False
+K-Means,primary_device,Chi-square,Cramer's V,0.009706291427574235,0.276919509919122,False
+K-Means,most_liked_feature,Chi-square,Cramer's V,0.011621048048794139,0.5177160502766815,False
+K-Means,desired_future_feature,Chi-square,Cramer's V,0.010788262643336499,0.2753834834720866,False
+Ward (CAH),age,One-way ANOVA,eta squared,1.5715638812176762e-05,0.9403514849633967,False
+Ward (CAH),tenure_months,One-way ANOVA,eta squared,0.00011136131728424104,0.23382255497932758,False
+Ward (CAH),months_inactive,One-way ANOVA,eta squared,1.7264529554345828e-05,0.9297849048171763,False
+Ward (CAH),subscription_type,Chi-square,Cramer's V,0.009901776783307194,0.23834777440986474,False
+Ward (CAH),subscription_status,Chi-square,Cramer's V,0.005700657225356417,0.8043145982905389,False
+Ward (CAH),inactive_3_months_flag,Chi-square,Cramer's V,0.010557539619197035,0.23337979890689836,False
+Ward (CAH),ad_interaction,Chi-square,Cramer's V,0.00780330775430354,0.5503928623059624,False
+Ward (CAH),ad_conversion_to_subscription,Chi-square,Cramer's V,0.009105217431055274,0.38670525429418684,False
+Ward (CAH),country,Chi-square,Cramer's V,0.01389037410513458,0.7021095339552506,False
+Ward (CAH),favorite_genre,Chi-square,Cramer's V,0.013312128887190865,0.817737568994293,False
+Ward (CAH),primary_device,Chi-square,Cramer's V,0.008520480856365425,0.5600550984826204,False
+Ward (CAH),most_liked_feature,Chi-square,Cramer's V,0.013212132799079592,0.17244079012995833,False
+Ward (CAH),desired_future_feature,Chi-square,Cramer's V,0.010561761144254077,0.32392045968302713,False

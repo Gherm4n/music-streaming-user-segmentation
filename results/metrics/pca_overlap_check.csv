@@ -1,0 +1,3 @@
+algorithm,users_with_exactly_one_label,nearest_own_centroid_4d_percent,nearest_own_centroid_in_2d_picture_percent
+K-Means,True,99.934,55.13
+Ward (CAH),True,74.586,52.105999999999995

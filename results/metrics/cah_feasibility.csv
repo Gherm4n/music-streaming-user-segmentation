@@ -1,0 +1,6 @@
+users,pairwise_distances,distance_matrix_GB,scipy_ward_seconds,fastcluster_vector_ward_seconds
+1000,499500,0.004,0.01,0.0
+5000,12497500,0.1,0.26,0.05
+10000,49995000,0.4,1.05,0.2
+20000,199990000,1.6,,0.78
+50000,1249975000,10.0,,4.87

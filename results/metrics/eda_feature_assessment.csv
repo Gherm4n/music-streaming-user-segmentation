@@ -1,0 +1,19 @@
+Feature,Data Type,Description,Potential Role,Decision
+user_id,int,"Sequential row identifier, 1 to 50,000",Identifier,Exclude from clustering
+country,text,Country (12 values),Excluded feature,"Demographic, not behaviour; described after clustering"
+age,int,"Age, 16 to 60",Post-clustering interpretation,"Demographic, not behaviour; described after clustering"
+signup_date,date,Account creation date,Excluded feature,Raw date not usable in distances; tenure derived for interpretation
+subscription_type,text,"Plan (Free, Student, Premium variants)",Post-clustering interpretation,"Commercial status, not behaviour"
+subscription_status,text,Active or Inactive; Inactive only occurs with 3+ months inactive,Outcome-related feature,Exclude from clustering; test associations afterwards
+months_inactive,int,Months without activity (meaning inferred),Outcome-related feature,Exclude: drives status and defines the flag
+inactive_3_months_flag,int,Equals 1 exactly when months_inactive >= 3,Derived or redundant feature,Exclude: exact function of months_inactive
+ad_interaction,text,Whether the user interacted with ads,Post-clustering interpretation,"Precondition of the conversion outcome, so kept out of the inputs"
+ad_conversion_to_subscription,text,Converted after an ad; only occurs after ad interaction,Outcome-related feature,Exclude from clustering; test associations afterwards
+music_suggestion_rating_1_to_5,int,Ordinal rating of music suggestions,Candidate clustering feature,Include in Representation A (treated as approximately interval)
+avg_listening_hours_per_week,float,Average weekly listening time,Candidate clustering feature,Include in Representation A
+favorite_genre,text,Favourite genre (12 values),Candidate clustering feature,Representation B only (one-hot)
+most_liked_feature,text,Most liked product feature (8 values),Post-clustering interpretation,"Survey opinion, not listening behaviour"
+desired_future_feature,text,Requested future feature (6 values),Post-clustering interpretation,"Survey opinion, not listening behaviour"
+primary_device,text,Main listening device (5 values),Candidate clustering feature,Representation B only (one-hot)
+playlists_created,int,Number of playlists created,Candidate clustering feature,Include in Representation A
+avg_skips_per_day,int,Average skips per day (rounded in the data),Candidate clustering feature,Include in Representation A

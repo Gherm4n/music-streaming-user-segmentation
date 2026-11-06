@@ -1,0 +1,7 @@
+check,rows,percent_of_users,affects_clustering_inputs
+Zero listening hours but at least one skip per day,327,0.65,Yes: both are clustering features
+Status 'Active' with 3+ months inactive,3232,6.46,No: outcome-related columns
+Converted from an ad but still on the Free plan,1921,3.84,No: interpretation columns
+Paid plan but interacted with an ad,9647,19.29,No: interpretation column
+Student plan at age 30 or older,3099,6.2,No: interpretation columns
+Months inactive exceeds account tenure,854,1.71,No: outcome-related column

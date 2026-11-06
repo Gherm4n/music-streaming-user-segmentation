@@ -1,0 +1,33 @@
+{
+  "algorithm": "Agglomerative hierarchical clustering",
+  "implementation_full_data": "fastcluster.linkage_vector",
+  "representation": "A",
+  "features": [
+    "avg_listening_hours_per_week",
+    "playlists_created",
+    "avg_skips_per_day",
+    "music_suggestion_rating_1_to_5"
+  ],
+  "linkage": "ward",
+  "metric": "euclidean",
+  "selected_k": 5,
+  "fitted_on_all_users": true,
+  "fit_seconds": 4.958167110999057,
+  "linkage_comparison_sample": {
+    "size": 5000,
+    "method": "Uniform random sample without replacement",
+    "random_seed": 42
+  },
+  "implementation_agreement_ari": {
+    "fastcluster vs SciPy": 1.0,
+    "scikit-learn vs SciPy": 1.0
+  },
+  "extended_sample_vs_full_ari": 0.3339751892362832,
+  "segment_names": {
+    "0": "Frequent Skippers",
+    "1": "Low-Rating Users",
+    "2": "Light Listeners",
+    "3": "Playlist Builders",
+    "4": "Low-Skip Listeners"
+  }
+}

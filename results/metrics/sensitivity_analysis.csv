@@ -1,0 +1,13 @@
+algorithm,change,ari_with_baseline
+K-Means,k = 4 instead of 5,0.5684577649500718
+K-Means,k = 6 instead of 5,0.6272126837409332
+K-Means,RobustScaler instead of StandardScaler,0.4621644032214357
+K-Means,Remove the rating feature,0.45942827836976796
+K-Means,Exclude the zero-listening-hour users,0.9255433016335869
+K-Means,Representation B (add genre and device),0.9632069493122599
+Ward (CAH),k = 4 instead of 5,0.8029018610894858
+Ward (CAH),k = 6 instead of 5,0.8902610743368643
+Ward (CAH),RobustScaler instead of StandardScaler,0.18100390039941888
+Ward (CAH),Remove the rating feature,0.15554976958613603
+Ward (CAH),Exclude the zero-listening-hour users,0.2342170328052924
+Ward (CAH),Representation B (add genre and device),0.11862515018471323

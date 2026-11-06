@@ -1,0 +1,77 @@
+# Central configuration: every notebook reads its settings from this file.
+project:
+  title: "Music Streaming User Segmentation: A Comparative Study of K-Means and Agglomerative Hierarchical Clustering"
+
+paths:
+  raw_data: data/raw/music_streaming_users.csv
+  processed_dir: data/processed
+  figures_dir: results/figures
+  metrics_dir: results/metrics
+  profiles_dir: results/cluster_profiles
+  reports_dir: results/reports
+
+random_seed: 42
+
+columns:
+  identifier: user_id
+  date: signup_date
+  # Outcome-like or derived from an outcome: never used as clustering inputs.
+  outcome_related:
+    - subscription_status
+    - months_inactive
+    - inactive_3_months_flag
+    - ad_conversion_to_subscription
+  # Representation A: the primary numerical behavioural baseline.
+  representation_a_numeric:
+    - avg_listening_hours_per_week
+    - playlists_created
+    - avg_skips_per_day
+    - music_suggestion_rating_1_to_5
+  # Added to Representation A (one-hot encoded) to form Representation B.
+  representation_b_categorical:
+    - favorite_genre
+    - primary_device
+  # Described after clustering only.
+  interpretation_numeric:
+    - age
+    - tenure_months
+    - months_inactive
+    - skips_per_listening_hour
+  interpretation_categorical:
+    - subscription_type
+    - subscription_status
+    - inactive_3_months_flag
+    - ad_interaction
+    - ad_conversion_to_subscription
+    - country
+    - favorite_genre
+    - primary_device
+    - most_liked_feature
+    - desired_future_feature
+
+preprocessing:
+  numeric_scaler: standard
+  log1p_columns: []            # Notebook 02 shows why no selected feature needs log1p.
+  tenure_snapshot: max_signup_date  # No snapshot date is documented; the latest signup is used.
+
+evaluation:
+  k_min: 2
+  k_max: 10
+  silhouette_sample_size: 10000  # Same fixed users for every candidate, for both algorithms.
+  reference_datasets: 10         # Number of column-permuted reference datasets.
+  stability_subsamples: 10
+  stability_subsample_size: 5000
+  stability_seeds: 10
+
+kmeans:
+  init: k-means++
+  n_init: 20
+  max_iter: 300
+  selected_k: 5
+
+hierarchical:
+  sample_size: 5000              # Used for linkage comparison and readable dendrograms.
+  linkage_methods: [ward, average, complete, single]
+  final_linkage: ward
+  metric: euclidean
+  selected_k: 5

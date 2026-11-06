@@ -1,0 +1,4 @@
+algorithm,work,seconds,changing_k,memory
+K-Means,"20 runs at k = 5, all users",1.5577541960010421,Must re-fit,Grows with n
+"Ward, vector method (fastcluster)","One full tree, all users",4.958167110999057,Cut the same tree,Grows with n
+"Ward, standard SciPy method",Not run on all users,,Cut the same tree,10 GB for the distance matrix alone
