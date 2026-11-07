@@ -54,7 +54,11 @@ music-streaming-user-segmentation/
 │   ├── 05_model_comparison_and_cluster_profiling.ipynb
 │   └── 06_final_analysis_and_conclusions.ipynb
 ├── scripts/
-│   └── make_french_figures.py   Redraws the presentation charts with French labels
+│   ├── make_french_figures.py   Redraws the presentation charts with French labels
+│   ├── course_metrics.py        K-Means and all four linkages on all users, with the course's indices
+│   ├── course_shuffle_test.py   The shuffling test on all users, with silhouette, R² and the Ward jump
+│   ├── course_stability.py      Bootstrap stability on real and shuffled data, as a plain percentage
+│   └── make_course_figures.py   French charts for slides 6, 7, 10 and 12
 ├── src/
 │   ├── data_loader.py
 │   ├── preprocessing.py
@@ -74,8 +78,8 @@ music-streaming-user-segmentation/
 1. **EDA:** data quality, distributions and relationships between variables.
 2. **Preprocessing:** feature selection without leakage, then scaling.
 3. **K-Means:** k from 2 to 10, followed by selection on several kinds of evidence.
-4. **CAH:** linkage comparison on a reproducible sample, then Ward on all users.
-5. **Reference test:** the same pipeline on 10 datasets with each column shuffled independently, which cannot contain joint structure. This was added to the original plan because the EDA found the features to be almost independent.
+4. **CAH:** linkage comparison on a reproducible sample in Notebook 04, then Ward on all users. `scripts/course_metrics.py` repeats the comparison of Ward, average, complete and single linkage on all users, with the CPCC.
+5. **Reference test:** the same pipeline on 10 datasets with each column shuffled independently, which cannot contain joint structure. This was added to the original plan because the EDA found the features to be almost independent. `scripts/course_shuffle_test.py` repeats it on all users with silhouette, R² and the Ward jump only.
 6. **Profiling:** segment descriptions in original units, plus tests against variables not used in clustering.
 7. **Verification:** Notebook 06 recomputes key results from the saved files.
 
@@ -159,7 +163,7 @@ Both final models use k = 5, the same four features and all 50,000 users.
 - Results are sensitive to scaling and feature selection.
 - The ordinal rating is treated as numeric.
 - PCA plots show only 50.3% of the variance.
-- Linkages (Ward, average, complete, single) were compared only on a 5,000-user sample.
+- All four linkages have a CPCC below 0.60 on all users (average 0.478, complete 0.379, Ward 0.351, single 0.262), so none of the trees preserves the original distances well.
 - Column meanings and the tenure snapshot date are assumptions.
 
 ## 16. Future work

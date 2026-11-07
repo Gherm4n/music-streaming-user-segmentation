@@ -247,6 +247,10 @@ Metrics can rank candidates, but they cannot tell us whether **any** candidate r
 
 **Across all 54 combinations** of algorithm, k and metric, 46 fall inside the shuffled range, 2 are better than every shuffle, and 6 are worse. If the real data behaved like one more shuffle, about 2 in 11 (about 10 of 54) would fall outside the range by chance. We observed 8. Results at different k are related, so this is a rough guide rather than a formal test, but the message is clear.
 
+**The presentation uses a shorter version on all 50,000 users**, with only the course's measures (`scripts/course_shuffle_test.py`). Of 36 silhouette and R² comparisons, 32 fall inside the shuffled range, none is better and 4 are worse. At k = 5, K-Means has a silhouette of 0.186 (shuffled: 0.184 to 0.186) and an R² of 46.1% (shuffled: 45.9% to 46.2%). Ward's inertia jump at k = 5 is ×1.87 (shuffled: ×1.04 to ×2.17), and 5 of the 10 shuffled datasets also have their largest jump at k = 5.
+
+**Bootstrap stability (`scripts/course_stability.py`):** each run draws 50,000 users with replacement and refits the model. The new clusters are paired one-to-one with the original ones, and the score is the share of drawn users who stay together. Over 10 runs, K-Means scores 97.95% (97.84% on shuffled data) and Ward 47.88% (49.36% on shuffled data). Random labels of the same sizes would score about 21% to 23%. So K-Means is repeatable, but that doesn't show that the groups exist.
+
 A second reference, a single random 4-dimensional Gaussian blob, gives a Silhouette of 0.166 at k = 5. So a weak score of this size is achievable with one cloud and no groups at all.
 
 ### PCA picture
@@ -477,7 +481,7 @@ This is a successful result, even though it is not the most exciting one. A naiv
 - **Sensitivity:** results depend heavily on scaling and feature selection.
 - **The rating is ordinal,** but it was treated as numeric.
 - **PCA shows only 50.3% of the variance,** so the 2D plots are illustrations.
-- **CAH limits:** the vector shortcut exists only for some linkages, so the linkages were compared on a sample, and average and complete linkage were not run on all users.
+- **CAH limits:** on all users, all four linkages have a CPCC below 0.60 (average 0.478, complete 0.379, Ward 0.351, single 0.262), so none of the trees preserves the original distances well. Average and complete linkage also need the 10 GB distance matrix (`scripts/course_metrics.py`).
 - **Assumptions:** column meanings and the tenure snapshot date are inferred.
 - **Reproducibility:** seeds are fixed, but very small K-Means differences are possible on machines with a different thread count or library versions.
 
@@ -505,13 +509,13 @@ The deck has 16 slides, with speaker notes on each one. The split below is a sug
 | 3 | The dataset | 1 | 50,000 synthetic users, 18 columns, clean | `eda_numeric_distributions.png` |
 | 4 | Key finding | 1 | Features are almost perfectly independent | `eda_correlation_heatmap.png` |
 | 5 | Preparing the data | 1 | Four features, no leakage, standardized | |
-| 6 | K-Means | 2 | k = 5 is the best balance of evidence | `kmeans_elbow.png` |
-| 7 | Choosing the CAH linkage | 2 | Why Ward rather than saut minimal or saut maximal | `results/figures_fr/cah_linkage_choice.png` |
+| 6 | K-Means | 2 | k = 5 is the best balance of evidence | `results/figures_fr/kmeans_coude_silhouette.png` |
+| 7 | Choosing the CAH linkage | 2 | Why Ward rather than saut minimal or saut maximal | `results/figures_fr/cah_linkage_choice_full.png` |
 | 8 | CAH | 2 | Ward on all users via `fastcluster`; k = 5 | `cah_ward_dendrogram_full.png` |
 | 9 | The segments | 2 | Five clear profiles | `comparison_profile_heatmaps.png` |
-| 10 | All clusters on one chart | 2 | Each user has one label; the overlap comes from the chart | `kmeans_pca_all_segments.png`, `cah_pca_all_segments.png` |
-| 11 | K-Means against Ward | 3 | K-Means is better on every internal metric | |
-| 12 | The shuffle test | 3 | Real scores match shuffled data | `kmeans_metrics_vs_reference.png` |
+| 10 | All clusters on one chart | 2 | Each user has one label; the overlap comes from the chart | `results/figures_fr/kmeans_heures_sauts.png`, `results/figures_fr/cah_heures_sauts.png` |
+| 11 | K-Means against Ward | 3 | K-Means is better on silhouette, R², balance and stability | |
+| 12 | The shuffle test | 3 | Real scores match shuffled data | `results/figures_fr/test_melange_cours.png` |
 | 13 | External test | 3 | Segments do not relate to outcomes | `comparison_external_rates_kmeans.png` |
 | 14 | Our answer | 3 | Interpretable, but not natural groups | |
 | 15 | Limitations and next steps | 3 | Synthetic data; validate on real data | |

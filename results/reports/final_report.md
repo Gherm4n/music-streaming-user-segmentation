@@ -4,7 +4,7 @@
 
 A complete, reproducible clustering workflow on 50,000 synthetic users: six executed notebooks, reusable source code, a central configuration, 27 figures, and saved metric and profile tables.
 
-**Algorithms tested:** K-Means (k from 2 to 10) and agglomerative hierarchical clustering. Ward, average, complete and single linkage were compared on a 5,000-user sample, and Ward was then fitted on all 50,000 users.
+**Algorithms tested:** K-Means (k from 2 to 10) and agglomerative hierarchical clustering. Ward, average, complete and single linkage were compared on a 5,000-user sample and again on all 50,000 users, and Ward was selected.
 
 ## Selected models
 
@@ -36,7 +36,7 @@ Average user: 9.99 hours per week, 8.00 playlists, 10.03 skips per day, rating 3
 **Answer to the research question: partly.** Both algorithms produce interpretable segments, but the evidence does not show that they are natural or meaningful groups in this dataset.
 
 1. **The features are almost independent.** Excluding the inactivity flag, the largest correlation between numeric variables is 0.008.
-2. **Scores match data with no joint structure.** Of 54 comparisons with column-shuffled datasets, 46 fall inside the shuffled range, 2 are better and 6 are worse, in line with chance. Stability and the dendrogram gap at k = 5 are matched as well.
+2. **Scores match data with no joint structure.** Of 54 comparisons with column-shuffled datasets, 46 fall inside the shuffled range, 2 are better and 6 are worse, in line with chance. Stability and the dendrogram gap at k = 5 are matched as well. Repeated on all 50,000 users with silhouette and R² only, 32 of 36 comparisons fall inside the shuffled range, none is better and 4 are worse. The Ward jump at k = 5 is ×1.87, against ×1.04 to ×2.17 on shuffled data. Over 10 bootstrap samples, 97.95% of users stay in the same K-Means cluster (97.84% on shuffled data) and 47.88% in the same Ward cluster (49.36% on shuffled data).
 3. **Segments do not relate to outside variables.** The largest effect size is Cramér's V = 0.0145, and none of 26 tests is significant. No segment can be tied to churn, dissatisfaction or conversion.
 4. **Results depend on analyst choices.** Switching to RobustScaler or removing the rating gives ARI of about 0.46 with the baseline for K-Means, and below 0.2 for Ward.
 5. **K-Means is the better choice for description.** It has better metrics, more balanced segments and greater repeatability. Ward is more robust only to changes in k, because its partitions are nested.
@@ -47,7 +47,7 @@ Average user: 9.99 hours per week, 8.00 playlists, 10.03 skips per day, rating 3
 - There are no ground-truth segments.
 - There is no data dictionary, so column meanings and the tenure snapshot date are assumptions.
 - The reference test uses 10 datasets. It gives a range, not a precise p-value.
-- The linkages were compared only on a sample.
+- All four linkages have a CPCC below 0.60 on all users (average 0.478, complete 0.379, Ward 0.351, single 0.262), so Ward was selected for its usable clusters, not for its CPCC.
 - PCA plots show only 50.3% of the variance.
 
 ## Departures from the original plan
