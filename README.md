@@ -58,7 +58,8 @@ music-streaming-user-segmentation/
 │   ├── course_metrics.py        K-Means and all four linkages on all users, with the course's indices
 │   ├── course_shuffle_test.py   The shuffling test on all users, with silhouette, R² and the Ward jump
 │   ├── course_stability.py      Bootstrap stability on real and shuffled data, as a plain percentage
-│   └── make_course_figures.py   French charts for slides 6, 7, 10 and 12
+│   ├── course_dunn.py           Dunn index on all users, and the K-Means centroids for each k
+│   └── make_course_figures.py   French charts for slides 6, 7, 8, 11 and 13
 ├── src/
 │   ├── data_loader.py
 │   ├── preprocessing.py

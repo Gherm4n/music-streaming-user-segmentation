@@ -1,6 +1,6 @@
-"""Draw the French charts for slides 6, 7, 10 and 12 from the course-metric results.
+"""Draw the French charts for slides 6, 7, 8, 11 and 13 from the course-metric results.
 
-Run from the project root, after scripts/course_metrics.py and scripts/course_shuffle_test.py:
+Run from the project root, after scripts/course_metrics.py, course_shuffle_test.py and course_dunn.py:
 .venv/bin/python scripts/make_course_figures.py
 """
 
@@ -11,7 +11,8 @@ matplotlib.use("Agg")
 import numpy as np
 import pandas as pd
 
-from make_french_figures import save_in_french, to_french, viz
+from make_french_figures import SEGMENT_NAMES, save_in_french, to_french, viz
+from src.clustering import name_segments
 from src.data_loader import load_clean_data, load_config, project_path
 
 SAMPLE_SIZE = 6000
@@ -84,6 +85,53 @@ def plot_shuffle_test(scan: pd.DataFrame, shuffled: pd.DataFrame, jumps: pd.Data
     return fig
 
 
+def plot_k2_against_k5(centroids: pd.DataFrame, dunn: pd.DataFrame, users: pd.DataFrame, selected_k: int):
+    """K-Means centroids at k = 2 and the selected k, next to the Dunn index for each k."""
+    columns = ["avg_listening_hours_per_week", "playlists_created", "avg_skips_per_day", "music_suggestion_rating_1_to_5"]
+    two, chosen = centroids[centroids["k"] == 2], centroids[centroids["k"] == selected_k]
+    names = name_segments(chosen.set_index("cluster")[columns])
+    labels = [f"k = 2 · note {'1 à 3' if row[columns[3]] < 0 else '4 ou 5'} ({row['share']:.0%})" for _, row in two.iterrows()]
+    labels += [f"k = {selected_k} · {SEGMENT_NAMES[names[row['cluster']]]} ({row['share']:.0%})" for _, row in chosen.iterrows()]
+    z = pd.concat([two, chosen])[columns].to_numpy()
+    means = z * users[columns].std(ddof=0).to_numpy() + users[columns].mean().to_numpy()
+
+    fig, axes = viz.plt.subplots(1, 2, figsize=(13, 4.6), gridspec_kw={"width_ratios": [1.35, 1]})
+    viz.sns.heatmap(
+        z,
+        annot=means,
+        fmt=".1f",
+        cmap=viz.DIVERGING_CMAP,
+        vmin=-1.8,
+        vmax=1.8,
+        linewidths=1,
+        linecolor=viz.SURFACE,
+        cbar_kws={"label": "Écart à l'utilisateur moyen (score z)"},
+        xticklabels=["Heures / semaine", "Playlists", "Sauts / jour", "Note (1-5)"],
+        yticklabels=labels,
+        ax=axes[0],
+    )
+    axes[0].axhline(2, color=viz.INK, linewidth=2)
+    axes[0].set_title("k = 2 : seule la note change. k = 5 : chaque variable compte", fontsize=12)
+    axes[0].tick_params(axis="y", labelsize=9.5)
+
+    kmeans = dunn[dunn["method"] == "kmeans"]
+    axes[1].bar(kmeans["k"], kmeans["dunn"], color=viz.PRIMARY, width=0.6)
+    axes[1].set_yscale("log")
+    axes[1].set_ylim(1e-4, 0.5)
+    axes[1].set_yticks([1e-4, 1e-3, 1e-2, 1e-1], ["0.0001", "0.001", "0.01", "0.1"])
+    axes[1].minorticks_off()
+    for _, row in kmeans[kmeans["k"] <= 3].iterrows():
+        axes[1].annotate(f"{row['dunn']:.3f}", (row["k"], row["dunn"]), textcoords="offset points", xytext=(0, 3), ha="center", fontsize=9, color=viz.INK_SECONDARY)
+    axes[1].annotate("écart d'une note\n(entre 3 et 4)", (2, kmeans["dunn"].iloc[0]), textcoords="offset points", xytext=(28, 14), fontsize=9, color=viz.INK)
+    axes[1].annotate("à partir de k = 4 : ≈ 0,0003\nles clusters se touchent", (7, 0.0011), ha="center", fontsize=9, color=viz.INK)
+    axes[1].set_title("Indice de Dunn (K-Means), échelle log", fontsize=12)
+    axes[1].set_xlabel("Number of clusters (k)")
+    axes[1].set_ylabel("Dunn = min(inter) / max(intra)")
+    axes[1].set_xticks(kmeans["k"])
+    axes[1].grid(axis="x", visible=False)
+    return fig
+
+
 def plot_two_features(users: pd.DataFrame, segments: pd.Series, title: str, seed: int):
     """Hours against skips, for one sample of users, with each segment's mean labelled."""
     x_column, y_column = "avg_listening_hours_per_week", "avg_skips_per_day"
@@ -144,6 +192,9 @@ def main() -> None:
     save_in_french(plot_shuffle_test(scan, shuffled, jumps, selected_k), "test_melange_cours")
 
     users = load_clean_data(config)
+    centroids = pd.read_csv(metrics_dir / "course_kmeans_centroids_by_k.csv")
+    dunn = pd.read_csv(metrics_dir / "course_dunn.csv")
+    save_in_french(plot_k2_against_k5(centroids, dunn, users, selected_k), "kmeans_k2_contre_k5")
     assignments = pd.read_csv(profiles_dir / "final_segment_assignments.csv")
     assert (assignments["user_id"] == users["user_id"]).all()
     for name, column, file_name in [("K-Means", "kmeans_segment", "kmeans_heures_sauts"), ("Ward (CAH)", "ward_segment", "cah_heures_sauts")]:
